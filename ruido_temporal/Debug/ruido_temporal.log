@@ -1,2 +1,3 @@
 ﻿  main.c
-  ruido_temporal.vcxproj -> C:\Users\chris\Desktop\ruido_temporal\Debug\ruido_temporal.exe
+c:\users\chris\desktop\jogo-senac\ruido_temporal\main.c(22): warning C4013: 'al_init_ttf_addon' undefined; assuming extern returning int
+  ruido_temporal.vcxproj -> C:\Users\chris\Desktop\jogo-senac\Debug\ruido_temporal.exe
