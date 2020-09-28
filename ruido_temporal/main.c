@@ -5,8 +5,8 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_font.h>
 
-#define LARGURA_TELA 640
-#define ALTURA_TELA 480
+#define LARGURA_TELA 740
+#define ALTURA_TELA 500
 
 int error_msg(char *text) {
 	al_show_native_message_box(NULL, "ERRO", "Ocorreu o seguinte erro no programa: ", text, NULL, ALLEGRO_MESSAGEBOX_ERROR);
@@ -16,7 +16,6 @@ int error_msg(char *text) {
 int main(void) {
 
 	ALLEGRO_DISPLAY *janela = NULL;
-	ALLEGRO_FONT *fonte = NULL;
 	ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
 
 	al_init();
@@ -24,12 +23,10 @@ int main(void) {
 	al_init_ttf_addon();
 
 	janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
-	fonte = al_load_font("C:\\Users\\chris\\Desktop\\ruido_temporal\\Fontes\\pixel_arial.TTF", 25, 0);
 	fila_eventos = al_create_event_queue();
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 	al_clear_to_color(al_map_rgb(255, 255, 255));
-	al_draw_text(fonte, al_map_rgb(0, 0, 255), LARGURA_TELA/2, ALTURA_TELA/2, ALLEGRO_ALIGN_CENTRE, "Ruido Temporal");
 
 	al_flip_display();
 
@@ -46,7 +43,6 @@ int main(void) {
 		al_flip_display();
 	}
 
-	al_destroy_font(fonte);
 	al_destroy_event_queue(fila_eventos);
 	al_destroy_display(janela);
 
