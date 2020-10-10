@@ -25,7 +25,11 @@
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="evento_mouse.h" />
+    <ClInclude Include="fase_um.h" />
+    <ClInclude Include="funcoes.h" />
+    <ClInclude Include="historia.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="struct.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

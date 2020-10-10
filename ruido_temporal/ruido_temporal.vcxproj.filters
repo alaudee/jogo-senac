@@ -23,7 +23,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="evento_mouse.h">
+    <ClInclude Include="funcoes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="historia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fase_um.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
