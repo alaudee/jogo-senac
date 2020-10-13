@@ -15,7 +15,7 @@
 #include "Struct.h"
 #include "funcoes.h"
 
-void tela_menu() {
+void tela_menu(ALLEGRO_DISPLAY *janela) {
 
 	init();
 
@@ -26,13 +26,12 @@ void tela_menu() {
 	bool musica_fundo = true;
 	bool sair_tela = false;
 
-	ALLEGRO_DISPLAY *janela_menu = NULL;
-	janela_menu = al_create_display(LARGURA_TELA, ALTURA_TELA);
-	al_register_event_source(fila_eventos, al_get_display_event_source(janela_menu));
+	janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
+	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 	al_clear_to_color(al_map_rgb(255, 204, 143));
 
 	//iniciando o mouse
-	al_set_system_mouse_cursor(janela_menu, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
+	al_set_system_mouse_cursor(janela, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
 
 	//implementação da musica
 	musicafundo = al_load_audio_stream("sons\\03 A Tempo.ogg", 4, 1024);
@@ -84,13 +83,13 @@ void tela_menu() {
 					}
 				}
 			}
-			sair_programa = fechar_janela(janela_menu, evento);
+			sair_programa = fechar_janela(janela, evento);
 
 		}
 
 		al_draw_text(fontetitulo, al_map_rgb(0, 255, 0), LARGURA_TELA / 2, 90, ALLEGRO_ALIGN_CENTRE, "Ruido Temporal");
 
-		al_set_target_bitmap(al_get_backbuffer(janela_menu));
+		al_set_target_bitmap(al_get_backbuffer(janela));
 		al_draw_bitmap(btnjogar->bitmap, btnjogar->x, btnjogar->y, 0);
 		al_draw_bitmap(btnmusica->bitmap, btnmusica->x, btnmusica->y, 0);
 
@@ -100,9 +99,8 @@ void tela_menu() {
 
 	}
 	al_destroy_event_queue(fila_eventos);
-	al_destroy_display(janela_menu);
+	al_destroy_display(janela);
 	al_destroy_bitmap(btnjogar->bitmap);
 	al_destroy_bitmap(btnmusica->bitmap);
 	al_destroy_audio_stream(musicafundo);
-
 }

@@ -23,6 +23,7 @@
 ALLEGRO_FONT *fontetitulo = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
 ALLEGRO_AUDIO_STREAM *musicafundo = NULL;
+ALLEGRO_DISPLAY *janela = NULL;
 
 //variavel global usada para fechar o programa
 bool sair_programa = false;

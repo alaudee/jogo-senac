@@ -25,15 +25,17 @@ int main(void) {
 		switch (estado_tela)
 		{
 		case MENU:
-			tela_menu();
+			tela_menu(janela);
 			break;
 		case HISTORIA:
-			tela_historia();
+			tela_historia(janela);
 			break;
 		case FASE_UM:
-			fase_um();
+			fase_um(janela);
+			break;
+		default:
+			al_destroy_display(janela);
 			break;
 		}
-
 	}
 }
