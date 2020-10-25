@@ -33,12 +33,8 @@ void tela_historia(ALLEGRO_DISPLAY *janela) {
 	sair_programa = false;
 	bool sair_tela = false;
 	int historia = 1;
-	janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
 	al_draw_bitmap(his1, 0, 0, 0);
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
-
-	//iniciando o mouse
-	al_set_system_mouse_cursor(janela, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
 
 	al_flip_display();
 	while (!sair_tela && !sair_programa)
@@ -95,7 +91,6 @@ void tela_historia(ALLEGRO_DISPLAY *janela) {
 	al_flip_display();
 
 	// Finaliza a janela
-	al_destroy_display(janela);
 	al_destroy_bitmap(his1);
 	al_destroy_bitmap(his2);
 	al_destroy_bitmap(his3);

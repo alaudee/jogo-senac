@@ -23,10 +23,12 @@
 ALLEGRO_FONT *fontetitulo = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
 ALLEGRO_AUDIO_STREAM *musicafundo = NULL;
-ALLEGRO_DISPLAY *janela = NULL;
-
 //variavel global usada para fechar o programa
 bool sair_programa = false;
+bool musica_fundo = true;
+
+//criação do invetario(sendo 0 um espaço dele)
+bool inventario[5];
 
 //criação da separação das telas
 enum { MENU, HISTORIA, FASE_UM};

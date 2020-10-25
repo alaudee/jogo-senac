@@ -19,7 +19,35 @@
 
 int main(void) {
 	init();
-	//fase_um();
+
+	ALLEGRO_DISPLAY *janela = NULL;
+
+	janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
+
+	//implementação da musica
+	musicafundo = al_load_audio_stream("sons\\03 A Tempo.ogg", 4, 1024);
+	al_attach_audio_stream_to_mixer(musicafundo, al_get_default_mixer());
+	al_set_audio_stream_playmode(musicafundo, ALLEGRO_PLAYMODE_LOOP);
+	al_set_audio_stream_gain(musicafundo, 0.2);
+
+	//Iniciando o Mouse, sendo usado em todas as janelas
+	al_set_system_mouse_cursor(janela, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
+
+	//Objetos a serem usados em todas as janelas(seta esquerda e direita por hora)
+	seta_direita = (Objeto*)malloc(sizeof(Objeto));
+	seta_direita->bitmap = al_load_bitmap("imagens\\seta_direita.png");
+	seta_direita->altura = 100;
+	seta_direita->largura = 100;
+	seta_direita->x = 667;
+	seta_direita->y = (ALTURA_TELA / 2) - (seta_direita->largura / 2);
+
+	seta_esquerda = (Objeto*)malloc(sizeof(Objeto));
+	seta_esquerda->bitmap = al_load_bitmap("imagens\\seta_esquerda.png");
+	seta_esquerda->altura = 100;
+	seta_esquerda->largura = 100;
+	seta_esquerda->x = -40;
+	seta_esquerda->y = (ALTURA_TELA / 2) - (seta_esquerda->largura / 2);
+
 	while (!sair_programa) {
 
 		switch (estado_tela)
@@ -34,8 +62,15 @@ int main(void) {
 			fase_um(janela);
 			break;
 		default:
-			al_destroy_display(janela);
 			break;
 		}
 	}
+	al_destroy_display(janela);
+	al_destroy_event_queue(fila_eventos);
+	al_destroy_audio_stream(musicafundo);
+	al_destroy_bitmap(seta_direita->bitmap);
+	al_destroy_bitmap(seta_esquerda->bitmap);
+
+	free(seta_direita);
+	free(seta_esquerda);
 }
