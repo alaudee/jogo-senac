@@ -15,30 +15,20 @@
 #include "Struct.h"
 #include "funcoes.h"
 
-void tela_menu() {
+void tela_menu(ALLEGRO_DISPLAY *janela) {
 
 	init();
 
 	//objetos
 	Objeto* btnjogar;
 	Objeto* btnmusica;
+	ALLEGRO_BITMAP *background = NULL;
 
-	bool musica_fundo = true;
 	bool sair_tela = false;
 
-	ALLEGRO_DISPLAY *janela_menu = NULL;
-	janela_menu = al_create_display(LARGURA_TELA, ALTURA_TELA);
-	al_register_event_source(fila_eventos, al_get_display_event_source(janela_menu));
-	al_clear_to_color(al_map_rgb(255, 204, 143));
-
-	//iniciando o mouse
-	al_set_system_mouse_cursor(janela_menu, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
-
-	//implementação da musica
-	musicafundo = al_load_audio_stream("sons\\03 A Tempo.ogg", 4, 1024);
-	al_attach_audio_stream_to_mixer(musicafundo, al_get_default_mixer());
-	al_set_audio_stream_playmode(musicafundo, ALLEGRO_PLAYMODE_LOOP);
-	al_set_audio_stream_gain(musicafundo, 0.2);
+	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
+	background = al_load_bitmap("imagens\\teste.jpg");
+	al_draw_bitmap(background, 0, 0,0);
 
 	//atribuindo valores ao objeto
 	btnjogar = (Objeto*)malloc(sizeof(Objeto));
@@ -70,27 +60,15 @@ void tela_menu() {
 				}
 				else if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
 					if (IsInside(evento.mouse.x, evento.mouse.y, btnmusica)) {
-						if (musica_fundo == true)
-						{
-							al_set_audio_stream_gain(musicafundo, 0);
-							musica_fundo = false;
-						}
-						else
-						{
-							al_set_audio_stream_gain(musicafundo, 0.2);
-							musica_fundo = true;
-
-						}
+						musica_fundo = Verificarmusica(musica_fundo);
 					}
 				}
 			}
-			sair_programa = fechar_janela(janela_menu, evento);
-
+			sair_programa = fechar_janela(janela, evento);
 		}
 
 		al_draw_text(fontetitulo, al_map_rgb(0, 255, 0), LARGURA_TELA / 2, 90, ALLEGRO_ALIGN_CENTRE, "Ruido Temporal");
-
-		al_set_target_bitmap(al_get_backbuffer(janela_menu));
+		al_set_target_bitmap(al_get_backbuffer(janela));
 		al_draw_bitmap(btnjogar->bitmap, btnjogar->x, btnjogar->y, 0);
 		al_draw_bitmap(btnmusica->bitmap, btnmusica->x, btnmusica->y, 0);
 
@@ -99,10 +77,10 @@ void tela_menu() {
 		al_flip_display();
 
 	}
-	al_destroy_event_queue(fila_eventos);
-	al_destroy_display(janela_menu);
+	al_destroy_bitmap(background);
 	al_destroy_bitmap(btnjogar->bitmap);
 	al_destroy_bitmap(btnmusica->bitmap);
-	al_destroy_audio_stream(musicafundo);
 
+	free(btnjogar);
+	free(btnmusica);
 }

@@ -33,6 +33,25 @@ bool fechar_janela(ALLEGRO_DISPLAY *janela_atual, ALLEGRO_EVENT evento) {
 	}
 }
 
+void Mostrar_mensagem(char titulo[50], char titulo_caixa[50], char mensagem[100]) {
+	int r = al_show_native_message_box(NULL, titulo, titulo_caixa, mensagem, NULL, ALLEGRO_MESSAGEBOX_OK_CANCEL);
+	printf("%i", r);
+}
+
+bool Verificarmusica(bool musica_fundo) {
+
+	if (musica_fundo == true)
+	{
+		al_set_audio_stream_gain(musicafundo, 0);
+		return false;
+	}
+	else
+	{
+		al_set_audio_stream_gain(musicafundo, 0.2);
+;		return true;
+	}
+}
+
 void init() {	
 
 	//Inicializar libs e addons
@@ -58,21 +77,6 @@ void init() {
 
 	//inicialização do estado tela do ENUM = MENU
 	estado_tela = MENU;
-
-	//Objetos a serem usados em todas as janelas(seta esquerda e direita por hora)
-	seta_direita = (Objeto*)malloc(sizeof(Objeto));
-	seta_direita->bitmap = al_load_bitmap("imagens\\seta_direita.png");
-	seta_direita->altura = 100;
-	seta_direita->largura = 100;
-	seta_direita->x = 667;
-	seta_direita->y = (ALTURA_TELA / 2) - (seta_direita->largura / 2);
-
-	seta_esquerda = (Objeto*)malloc(sizeof(Objeto));
-	seta_esquerda->bitmap = al_load_bitmap("imagens\\seta_esquerda.png");
-	seta_esquerda->altura = 100;
-	seta_esquerda->largura = 100;
-	seta_esquerda->x = -40;
-	seta_esquerda->y = (ALTURA_TELA / 2) - (seta_esquerda->largura / 2);
 
 	al_flip_display();
 

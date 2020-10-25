@@ -29,6 +29,7 @@
     <ClInclude Include="funcoes.h" />
     <ClInclude Include="historia.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="pause.h" />
     <ClInclude Include="struct.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
