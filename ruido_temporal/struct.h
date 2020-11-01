@@ -42,7 +42,6 @@ typedef struct Obj
 	int y;
 	int largura;
 	int altura;
-
 } Objeto;
 
 Objeto *seta_direita = NULL, *seta_esquerda = NULL;
