@@ -38,22 +38,22 @@ void pause(ALLEGRO_DISPLAY *janela) {
 	btncontinuar->bitmap = al_load_bitmap("imagens\\imgcontinuar.png");
 
 	Objeto* itemraiz = (Objeto*)malloc(sizeof(Objeto));
-	itemraiz->largura = 60;
-	itemraiz->altura = 60;
+	itemraiz->largura = 42;
+	itemraiz->altura = 42;
 	itemraiz->x = 70;
 	itemraiz->y = 390;
 	itemraiz->bitmap = al_load_bitmap("imagens\\Fase1\\item-3.png");
 
 	Objeto* itemrelogio = (Objeto*)malloc(sizeof(Objeto));
-	itemrelogio->largura = 60;
-	itemrelogio->altura = 60;
+	itemrelogio->largura = 42;
+	itemrelogio->altura = 42;
 	itemrelogio->x = 140;
 	itemrelogio->y = 390;
 	itemrelogio->bitmap = al_load_bitmap("imagens\\Fase1\\item+5.png");
 
 	Objeto* itemtermo = (Objeto*)malloc(sizeof(Objeto));
-	itemtermo->largura = 60;
-	itemtermo->altura = 60;
+	itemtermo->largura = 42;
+	itemtermo->altura = 42;
 	itemtermo->x = 210;
 	itemtermo->y = 390;
 	itemtermo->bitmap = al_load_bitmap("imagens\\Fase1\\item-14.png");
@@ -87,6 +87,15 @@ void pause(ALLEGRO_DISPLAY *janela) {
 						musica_fundo = true;
 					}
 				}
+				else if (IsInside(evento.mouse.x, evento.mouse.y, itemraiz)) {
+					inventariousado[0] = retornar_sim_nao("Item", "Item a ser usado", "Você quer usar este item?");
+				}
+				else if (IsInside(evento.mouse.x, evento.mouse.y, itemrelogio)) {
+					inventariousado[1] = retornar_sim_nao("Item", "Item a ser usado", "Você quer usar este item?");
+				}
+				else if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
+					inventariousado[2] = retornar_sim_nao("Item", "Item a ser usado", "Você quer usar este item?");
+				}
 			}
 			else if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
@@ -98,13 +107,13 @@ void pause(ALLEGRO_DISPLAY *janela) {
 		}
 
 		al_draw_bitmap(background, 0, 0, 0);
-		if (inventario[0]) {
+		if (inventario[0] && !inventariousado[0]) {
 			al_draw_bitmap(itemraiz->bitmap, itemraiz->x, itemraiz->y, 0);
 		}
-		if (inventario[1]) {
+		if (inventario[1] && !inventariousado[1]) {
 			al_draw_bitmap(itemrelogio->bitmap, itemrelogio->x, itemrelogio->y, 0);
 		}
-		if (inventario[2]) {
+		if (inventario[2] && !inventariousado[2]) {
 			al_draw_bitmap(itemtermo->bitmap, itemtermo->x, itemtermo->y, 0);
 		}
 		al_draw_bitmap(btncontinuar->bitmap, btncontinuar->x, btncontinuar->y, 0);
@@ -116,8 +125,14 @@ void pause(ALLEGRO_DISPLAY *janela) {
 
 	al_destroy_bitmap(background);
 	al_destroy_bitmap(btncontinuar->bitmap);
-	al_destroy_bitmap(btnmusica->bitmap);
+	al_destroy_bitmap(itemraiz->bitmap);
+	al_destroy_bitmap(itemrelogio->bitmap);
+	al_destroy_bitmap(itemtermo->bitmap);
 
 	free(btncontinuar);
 	free(btnmusica);
+	free(itemraiz);
+	free(itemrelogio);
+	free(itemtermo);
+	
 }
