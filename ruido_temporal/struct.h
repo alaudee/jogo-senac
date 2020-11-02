@@ -29,6 +29,8 @@ bool musica_fundo = true;
 
 //criação do invetario(sendo 0 um espaço dele)
 bool inventario[5];
+bool inventariousado[5];
+
 
 //criação da separação das telas
 enum { MENU, HISTORIA, FASE_UM};
@@ -42,7 +44,6 @@ typedef struct Obj
 	int y;
 	int largura;
 	int altura;
-
 } Objeto;
 
 Objeto *seta_direita = NULL, *seta_esquerda = NULL;

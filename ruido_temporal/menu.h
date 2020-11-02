@@ -55,7 +55,7 @@ void tela_menu(ALLEGRO_DISPLAY *janela) {
 			{
 				if (IsInside(evento.mouse.x, evento.mouse.y, btnjogar))
 				{
-					estado_tela = HISTORIA;
+					estado_tela = FASE_UM;
 					sair_tela = true;
 				}
 				else if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
