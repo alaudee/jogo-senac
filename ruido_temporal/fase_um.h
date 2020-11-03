@@ -24,11 +24,35 @@ bool sair_tela = false;
 
 int visao_anterior;
 
+int enigma_resol[3] = {-3, 5 ,-14};
+
+int valida_enigma(int vet_resp[], int res, int cont) {
+ 	if (vet_resp[cont] == res) {
+		cont += 1;
+
+		if (cont == 3) {
+			Mostrar_mensagem("GANHO", "DEU CERTO", "CATAPIMBAS");
+		}
+		return cont;
+	}
+	else {
+		Mostrar_mensagem("ERRO", "DEU ERRO", "CATAPIMBAS");
+		return 0;
+	}	
+}
+
 void tela_enigma(ALLEGRO_DISPLAY *janela) {
 
 	bool estado_perspectiva = false;
 
+	int cont = 0;
+
 	ALLEGRO_BITMAP *background = al_load_bitmap("imagens\\Fase1\\enigmatela.png");
+
+	ALLEGRO_BITMAP  *telinha, *telablitz, *telaloading;
+	telinha = al_load_bitmap("imagens\\Fase1\\telacod1.png");
+	telablitz = al_load_bitmap("imagens\\Fase1\\blitz.png");
+	telaloading = al_load_bitmap("imagens\\Fase1\\loading.png");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 
@@ -74,6 +98,23 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_UM;
 				}
+				if (inventariousado[0] == true) {
+					if (IsInside(evento.mouse.x, evento.mouse.y, itemraiz)) {
+						cont = valida_enigma(enigma_resol, -3, cont);
+					}
+				}
+				if (inventariousado[1] == true) {
+					if (IsInside(evento.mouse.x, evento.mouse.y, itemrelogio)) {
+						cont = valida_enigma(enigma_resol, 5, cont);
+					}
+				}
+				if (inventariousado[2] == true) {
+					if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
+						cont = valida_enigma(enigma_resol, -14, cont);
+
+					}
+				}
+
 			}
 			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
@@ -83,6 +124,14 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 			sair_programa = fechar_janela(janela, evento);
 		}
 		al_draw_bitmap(background, 0, 0, 0);
+		if (cont == 3) {
+			telinha = telablitz;
+		}
+		if (cont > 0 && cont < 3) {
+			telinha = telaloading;
+		}
+		al_draw_bitmap(telinha, 0, 0, 0);
+
 		al_draw_bitmap(seta_baixo->bitmap, seta_baixo->x, seta_baixo->y, 0);
 		if (inventariousado[0] == true) {
 			al_draw_bitmap(itemraiz->bitmap, itemraiz->x, itemraiz->y, 0);
@@ -97,6 +146,8 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 		
 	}
 	al_destroy_bitmap(background);
+	al_destroy_bitmap(telinha);
+
 	al_destroy_bitmap(seta_baixo->bitmap);
 	al_destroy_bitmap(itemraiz->bitmap);
 	al_destroy_bitmap(itemrelogio->bitmap);
@@ -107,6 +158,7 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 	free(itemtermo);
 	free(seta_baixo);
 }
+
 
 void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 
