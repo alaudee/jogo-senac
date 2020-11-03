@@ -49,12 +49,13 @@ int main(void) {
 	seta_esquerda->y = (ALTURA_TELA / 2) - (seta_esquerda->largura / 2);
 
 	while (!sair_programa) {
-		fase_um(janela);
-		/*
 		switch (estado_tela)
 		{
 		case MENU:
 			tela_menu(janela);
+			break;
+		case HISTORIA:
+			tela_historia(janela);
 			break;
 		case FASE_UM:
 			fase_um(janela);
@@ -62,7 +63,6 @@ int main(void) {
 		default:
 			break;
 		}
-	*/
 	}
 	al_destroy_display(janela);
 	al_destroy_event_queue(fila_eventos);
