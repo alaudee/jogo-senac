@@ -25,6 +25,7 @@
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fase_dois.h" />
     <ClInclude Include="fase_um.h" />
     <ClInclude Include="funcoes.h" />
     <ClInclude Include="historia.h" />

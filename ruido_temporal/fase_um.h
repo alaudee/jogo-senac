@@ -20,11 +20,22 @@ ALLEGRO_DISPLAY *perspectiva = NULL;
 
 enum{VISAO_UM, VISAO_DOIS, VISAO_TRES, VISAO_QUATRO, ENIGMA};
 
+/*
+	inventrario[0] = item -3 da raiz
+	inventrario[1] = item +5 do relogio
+	inventrario[2] = item -14 do termo
+	inventrario[3] = item anotação
+	inventrario[4] = item chave
+	inventrario[5] = 
+*/
+
 bool sair_tela = false;
 
 int visao_anterior;
 
 int enigma_resol[3] = {-3, 5 ,-14};
+
+bool primeira_entrada[5];
 
 int valida_enigma(int vet_resp[], int res, int cont) {
  	if (vet_resp[cont] == res) {
@@ -32,6 +43,9 @@ int valida_enigma(int vet_resp[], int res, int cont) {
 
 		if (cont == 3) {
 			Mostrar_mensagem("GANHO", "DEU CERTO", "CATAPIMBAS");
+			Mostrar_mensagem("conciente", "Pensamento", "A ENIGMA abriu um compartimento secreto, dentro dele contendo uma chave");
+			Mostrar_mensagem("Item", "Item pego", "Adquirida uma chave");
+			inventario[4] = true;
 		}
 		return cont;
 	}
@@ -114,12 +128,15 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 
 					}
 				}
-
 			}
 			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 					pause(janela);
 				}
+			}
+			if (!primeira_entrada[1]) {
+				Mostrar_mensagem("Rádio","Ciêntista amigo","Parece que esta máquina é a ENIGMA!Ela foi usada para encriptografar as mensagens nazistas.");
+				primeira_entrada[1] = true;
 			}
 			sair_programa = fechar_janela(janela, evento);
 		}
@@ -159,7 +176,6 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 	free(seta_baixo);
 }
 
-
 void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 
 	bool estado_perspectiva = false;
@@ -177,6 +193,7 @@ void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 	objenigma->x = (LARGURA_TELA / 2) - (objenigma->largura / 2) ;
 	objenigma->y = (ALTURA_TELA / 2) - (objenigma->altura / 2) + 83;
 	objenigma->bitmap =	al_load_bitmap("imagens\\Fase1\\enigma.png");
+
 
 	al_flip_display();
 	while (!sair_programa && !estado_perspectiva && !sair_tela) {
@@ -202,7 +219,17 @@ void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 					pause(janela);
 				}
+				if (evento.keyboard.keycode == ALLEGRO_KEY_J) {
+					Notacao(janela, inventario[3]);
+				}
 			}
+
+			else if (!primeira_entrada[0]) {
+				Mostrar_mensagem("Conciência", "Pensamento", "Você Acorda Em uma sala desnorteado, sem entender o que esta acontecendo");
+				Mostrar_mensagem("Radio", "Ciêntista amigo", "ALO!!! Você esta bem? Graças a newton. Você esta em 1941, em uma base nazista, você foi telestransportado para ai por acharmos alguns erros temporais. TENTA ARRUMA AI E SAI DAI O MAIS RAPIDO POSSIVEL!");
+				primeira_entrada[0] = true;
+			}
+
 			sair_programa = fechar_janela(janela, evento);
 		}
 		al_draw_bitmap(background, 0, 0, 0);
@@ -212,7 +239,10 @@ void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 
 		al_flip_display();
 	}
+
 	al_destroy_bitmap(background);
+	al_destroy_bitmap(objenigma->bitmap);
+
 	free(objenigma);
 }
 
@@ -232,6 +262,13 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
 	objteste->y = (ALTURA_TELA / 2) - (objteste->altura / 2) + 160;
 	objteste->bitmap = al_load_bitmap("imagens\\Fase1\\relogiobolso.png");
 
+	Objeto* livro3 = (Objeto*)malloc(sizeof(Objeto));
+	livro3->largura = 15;
+	livro3->altura = 38;
+	livro3->x = 107;
+	livro3->y = 238;
+	livro3->bitmap = al_load_bitmap("imagens\\Fase1\\livro-3.png");
+
 	al_set_window_title(janela, "Visao dois");
 
 	al_flip_display();
@@ -241,8 +278,8 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
 			ALLEGRO_EVENT evento;
 			al_wait_for_event(fila_eventos, &evento);
 
-			if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
-				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
+			if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)  {
+ 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_QUATRO;
 				}
@@ -251,9 +288,17 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
 					num_perspectiva = VISAO_UM;
 				}
 				else if (!inventario[0]) {
-					if (IsInside(evento.mouse.x, evento.mouse.y, objteste)) {
+					if (IsInside(evento.mouse.x, evento.mouse.y, livro3)) {
 						inventario[0] = true;
+						Mostrar_mensagem("Conciência", "Pensamento", "Você abriu o Livro e de repente caiu um botão.");
 						Mostrar_mensagem("Item", "Item pego!", "Voce obteve um botao de -3!!");
+					}
+				}
+				if (!inventario[3]) {
+					if (IsInside(evento.mouse.x, evento.mouse.y, objteste)) {
+						inventario[3] = true;
+						Mostrar_mensagem("Conciência", "Pensamento", "Você acha uma anotação.");
+						Mostrar_mensagem("Radio", "Ciêntista amigo", "Na sua mochila, além deste rádio, você tem um caderno para fazer anotações.(Aperte J para abrir o caderno)");
 					}
 				}
 			}
@@ -261,19 +306,30 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 					pause(janela);
 				}
+				if (evento.keyboard.keycode == ALLEGRO_KEY_J) {
+					Notacao(janela,inventario[3]);
+				}
+
 			}
 			sair_programa = fechar_janela(janela, evento);
+
+			al_draw_bitmap(background, 0, 0, 0);
+			if (!inventario[3]) {
+				al_draw_bitmap(objteste->bitmap, objteste->x, objteste->y, 0);
+			}
+			al_draw_bitmap(seta_direita->bitmap, seta_direita->x, seta_direita->y, 0);
+			al_draw_bitmap(seta_esquerda->bitmap, seta_esquerda->x, seta_esquerda->y, 0);
+			al_draw_bitmap(livro3->bitmap, livro3->x, livro3->y, 0);
+
+			al_flip_display();
 		}
-		al_draw_bitmap(background, 0, 0, 0);
-		if (!inventario[0]) {
-			al_draw_bitmap(objteste->bitmap, objteste->x, objteste->y, 0);
-		}
-		al_draw_bitmap(seta_direita->bitmap, seta_direita->x, seta_direita->y, 0);
-		al_draw_bitmap(seta_esquerda->bitmap, seta_esquerda->x, seta_esquerda->y, 0);
-		al_flip_display();
 	}
 	al_destroy_bitmap(background);
-
+	al_destroy_bitmap(livro3->bitmap);
+	al_destroy_bitmap(objteste->bitmap);
+	
+	free(livro3);
+	free(objteste);
 }
 
 void perspectiva_tres(ALLEGRO_DISPLAY *janela) {
@@ -292,14 +348,21 @@ void perspectiva_tres(ALLEGRO_DISPLAY *janela) {
 	objtermo->y = (ALTURA_TELA / 2) - (objtermo->altura / 2);
 	objtermo->bitmap = al_load_bitmap("imagens\\Fase1\\termometro.png");
 
+	Objeto *objtranca = (Objeto*)malloc(sizeof(Objeto));
+	objtranca->largura = 14;
+	objtranca->altura = 15;
+	objtranca->x = 432;
+	objtranca->y = 317;
+	objtranca->bitmap = al_load_bitmap("imagens\\Fase1\\tranca.png");
+
 	al_set_window_title(janela, "Visao três");
 
 	al_flip_display();
-	while (!sair_programa && !estado_perspectiva) {
+	while (!sair_programa && !estado_perspectiva && !sair_tela) {
 		while (!al_event_queue_is_empty(fila_eventos)) {
 
 			ALLEGRO_EVENT evento;
-			al_wait_for_event(fila_eventos, &evento);
+			al_wait_for_event(fila_eventos, &evento);			
 
 			if (evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
@@ -317,13 +380,25 @@ void perspectiva_tres(ALLEGRO_DISPLAY *janela) {
 						Mostrar_mensagem("Item","Item pego!","Voce pegou o botao de -14!");
 					}
 				}
+				if (IsInside(evento.mouse.x, evento.mouse.y, objtranca)) {
+					if (!inventario[4]) {
+						Mostrar_mensagem("Conciente", "Pensamento", "Você não possui nenhuma chave");
+					}
+					else {
+						Mostrar_mensagem("Conciente", "Pensamento", "Parabéns, passou de fase");
+						estado_tela = FASE_DOIS;
+						sair_tela = true;
+					}
+				}
 			}
 			else if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 					pause(janela);
 				}
+				if (evento.keyboard.keycode == ALLEGRO_KEY_J) {
+					Notacao(janela, inventario[3]);
+				}
 			}
-
 			sair_programa = fechar_janela(janela, evento);
 		}
 		al_draw_bitmap(background, 0, 0, 0);
@@ -331,9 +406,16 @@ void perspectiva_tres(ALLEGRO_DISPLAY *janela) {
 		al_draw_bitmap(objtermo->bitmap, objtermo->x, objtermo->y, 0);
 		al_draw_bitmap(seta_direita->bitmap, seta_direita->x, seta_direita->y, 0);
 		al_draw_bitmap(seta_esquerda->bitmap, seta_esquerda->x, seta_esquerda->y, 0);
+		al_draw_bitmap(objtranca->bitmap, objtranca->x, objtranca->y, 0);
 		al_flip_display();
 	}
 	al_destroy_bitmap(background);
+	al_destroy_bitmap(objtermo->bitmap);
+	al_destroy_bitmap(objtranca->bitmap);
+
+
+	free(objtermo);
+	free(objtranca);
 
 }
 
@@ -381,6 +463,9 @@ void perspectiva_quatro(ALLEGRO_DISPLAY *janela) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
 					pause(janela);
 				}
+				if (evento.keyboard.keycode == ALLEGRO_KEY_J) {
+					Notacao(janela, inventario[3]);
+				}
 			}
 
 			sair_programa = fechar_janela(janela, evento);
@@ -393,6 +478,9 @@ void perspectiva_quatro(ALLEGRO_DISPLAY *janela) {
 		al_flip_display();
 	}
 	al_destroy_bitmap(background);
+	al_destroy_bitmap(objrelogio->bitmap);
+
+	free(objrelogio);
 }
 
 void fase_um(ALLEGRO_DISPLAY *janela) {
@@ -402,7 +490,7 @@ void fase_um(ALLEGRO_DISPLAY *janela) {
 	num_perspectiva = VISAO_UM;
 	sair_programa = false;
 	
-	while (!sair_programa) {
+	while (!sair_programa && !sair_tela) {
 		switch (num_perspectiva) {
 
 		case VISAO_UM:

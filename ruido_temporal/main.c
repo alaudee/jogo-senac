@@ -16,6 +16,8 @@
 #include "menu.h"
 #include "historia.h"
 #include "fase_um.h"
+#include "fase_dois.h"
+
 
 int main(void) {
 	init();
@@ -23,6 +25,7 @@ int main(void) {
 	ALLEGRO_DISPLAY *janela = NULL;
 
 	janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
+
 
 	//implementação da musica
 	musicafundo = al_load_audio_stream("sons\\03 A Tempo.ogg", 4, 1024);
@@ -54,11 +57,11 @@ int main(void) {
 		case MENU:
 			tela_menu(janela);
 			break;
-		case HISTORIA:
-			tela_historia(janela);
-			break;
 		case FASE_UM:
 			fase_um(janela);
+			break;
+		case FASE_DOIS:
+			fase_dois(janela);
 			break;
 		default:
 			break;

@@ -31,9 +31,8 @@ bool musica_fundo = true;
 bool inventario[5];
 bool inventariousado[5];
 
-
 //criação da separação das telas
-enum { MENU, HISTORIA, FASE_UM};
+enum { MENU, HISTORIA, FASE_UM,FASE_DOIS};
 int estado_tela;
 
 //Struct para imagens

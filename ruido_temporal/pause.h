@@ -58,13 +58,19 @@ void pause(ALLEGRO_DISPLAY *janela) {
 	itemtermo->y = 390;
 	itemtermo->bitmap = al_load_bitmap("imagens\\Fase1\\item-14.png");
 
+	Objeto* itemchave = (Objeto*)malloc(sizeof(Objeto));
+	itemchave->largura = 42;
+	itemchave->altura = 42;
+	itemchave->x = 280;
+	itemchave->y = 390;
+	itemchave->bitmap = al_load_bitmap("imagens\\Fase1\\chave.png");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 	background = al_load_bitmap("imagens\\teste2.jpg");
 
 	al_flip_display();
 
-	while (!sair_tela) {
+	while (!sair_tela && !sair_programa) {
 	
 		while (!al_event_queue_is_empty(fila_eventos)) {
 			ALLEGRO_EVENT evento;
@@ -116,6 +122,9 @@ void pause(ALLEGRO_DISPLAY *janela) {
 		if (inventario[2] && !inventariousado[2]) {
 			al_draw_bitmap(itemtermo->bitmap, itemtermo->x, itemtermo->y, 0);
 		}
+		if (inventario[4]) {
+			al_draw_bitmap(itemchave->bitmap, itemchave->x, itemchave->y, 0);
+		}
 		al_draw_bitmap(btncontinuar->bitmap, btncontinuar->x, btncontinuar->y, 0);
 		al_draw_bitmap(btnmusica->bitmap, btnmusica->x, btnmusica->y, 0);
 		
@@ -128,11 +137,50 @@ void pause(ALLEGRO_DISPLAY *janela) {
 	al_destroy_bitmap(itemraiz->bitmap);
 	al_destroy_bitmap(itemrelogio->bitmap);
 	al_destroy_bitmap(itemtermo->bitmap);
+	al_destroy_bitmap(itemchave->bitmap);
 
 	free(btncontinuar);
 	free(btnmusica);
 	free(itemraiz);
 	free(itemrelogio);
 	free(itemtermo);
+	free(itemchave);
 	
+}
+
+void Notacao(ALLEGRO_DISPLAY *janela, bool inventario) {
+
+	ALLEGRO_BITMAP *background = al_load_bitmap("imagens\\Fase1\\nota.png");
+
+	bool sair_tela = false;
+
+	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
+
+	al_set_window_title(janela, "Anotações");
+	al_flip_display();
+
+	if (inventario == false) {
+		Mostrar_mensagem("Consiente", "Pensamento", "Você não possui nenhuma anotação");
+
+	}
+	else
+	{
+		while (!sair_programa && !sair_tela) {
+			while (!al_event_queue_is_empty(fila_eventos)) {
+				ALLEGRO_EVENT evento;
+				al_wait_for_event(fila_eventos, &evento);
+
+				if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
+					if (evento.keyboard.keycode == ALLEGRO_KEY_J) {
+						sair_tela = true;
+					}
+				}
+				sair_programa = fechar_janela(janela, evento);
+			}
+			al_draw_bitmap(background, 0, 0, 0);
+			al_flip_display();
+		}
+		al_destroy_bitmap(background);
+	}
+
 }

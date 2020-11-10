@@ -38,7 +38,7 @@ void Mostrar_mensagem(char titulo[50], char titulo_caixa[50], char mensagem[100]
 	printf("%i", r);
 }
 
-int retornar_sim_nao(char titulo[50], char titulo_caixa[50], char mensagem[100]) {
+int retornar_sim_nao(char titulo[50], char titulo_caixa[50], char mensagem[1000]) {
 	int r = al_show_native_message_box(NULL, titulo, titulo_caixa, mensagem, NULL, ALLEGRO_MESSAGEBOX_OK_CANCEL);
 	printf("%i", r);
 	return r;
