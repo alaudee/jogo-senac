@@ -84,6 +84,11 @@ void init() {
 	//inicialização do estado tela do ENUM = MENU
 	estado_tela = MENU;
 
+	for (int i = 0; i < 5; i++) {
+		inventario[i] = false;
+		inventariousado[i] = false;
+	}
+
 	al_flip_display();
 
 }

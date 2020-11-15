@@ -28,6 +28,13 @@ void perspectiva_um_2(ALLEGRO_DISPLAY *janela) {
 
 	ALLEGRO_BITMAP *background;
 
+	Objeto* objteste = (Objeto*)malloc(sizeof(Objeto));
+	objteste->altura = 90;
+	objteste->largura = 90;
+	objteste->x = (LARGURA_TELA / 2) - (objteste->largura / 2);
+	objteste->y = (ALTURA_TELA / 2) - (objteste->altura / 2) + 220;
+	objteste->bitmap = al_load_bitmap("imagens\\Fase2\\relogiobolso.png");
+
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 
 	al_set_window_title(janela, "Fase dois - Visão um");
@@ -48,11 +55,21 @@ void perspectiva_um_2(ALLEGRO_DISPLAY *janela) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_TRES_2;
 				}
+				else if (IsInside(evento.mouse.x, evento.mouse.y, objteste)) {
+					inventario[0] = true;
+				}
 			}
-
+			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
+				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+					pause(janela, FASE_DOIS);
+				}
+			}
 			sair_programa = fechar_janela(janela, evento);
 		}
 		al_draw_bitmap(background, 0, 0, 0);
+		if (!inventario[0]) {
+			al_draw_bitmap(objteste->bitmap, objteste->x, objteste->y, 0);
+		}
 		al_draw_bitmap(seta_direita->bitmap, seta_direita->x, seta_direita->y, 0);
 		al_draw_bitmap(seta_esquerda->bitmap, seta_esquerda->x, seta_esquerda->y, 0);
 		al_flip_display();
