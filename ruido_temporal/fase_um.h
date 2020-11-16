@@ -18,7 +18,6 @@
 int num_perspectiva;
 ALLEGRO_DISPLAY *perspectiva = NULL;
 
-
 enum{VISAO_UM, VISAO_DOIS, VISAO_TRES, VISAO_QUATRO, ENIGMA};
 
 /*
@@ -43,7 +42,7 @@ bool textsbox[10];
 	textsbox[1] = fala tela enigma
 	textsbox[2] = fala obj-3
 	textsbox[3] = fala nota
-	textsbox[4] = fala termo
+	textsbox[4] = fala termometro
 	textsbox[5] = fala relogio
 	textsbox[6] = falas da chave do enigma
 	textsbox[7] =
@@ -63,7 +62,7 @@ int valida_enigma(int vet_resp[], int res, int cont) {
 		return cont;
 	}
 	else {
-		//Mostrar_mensagem("ERRO", "DEU ERRO", "CATAPIMBAS");
+		Mostrar_mensagem("ERROR", "ERROR", "Ungultiger Code");
 		return 0;
 	}	
 }
@@ -72,17 +71,19 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 
 	bool estado_perspectiva = false;
 
+	ALLEGRO_SAMPLE *som_tecla = al_load_sample("sons\\som_teclado.ogg");
+
 	int cont = 0;
 
 	int cont_falas = 1;
 
 	ALLEGRO_BITMAP *background = al_load_bitmap("imagens\\Fase1\\enigmatela.png");
 
-	ALLEGRO_BITMAP  *telinha, *telablitz, *telaloading,*fala3;
+	ALLEGRO_BITMAP  *telinha, *telablitz, *telaloading,*falaenigma;
 	telinha = al_load_bitmap("imagens\\Fase1\\telacod1.png");
 	telablitz = al_load_bitmap("imagens\\Fase1\\blitz.png");
 	telaloading = al_load_bitmap("imagens\\Fase1\\loading.png");
-	fala3 = al_load_bitmap("imagens\\Fase1\\texts\\ex3.png");
+	falaenigma = al_load_bitmap("imagens\\Fase1\\texts\\falaenigma.png");
 
 	ALLEGRO_BITMAP *text1, *text2, *text3;
 	text1 = al_load_bitmap("imagens\\Fase1\\texts\\textenigma1.png");
@@ -121,6 +122,27 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 	itemtermo->y = 417;
 	itemtermo->bitmap = al_load_bitmap("imagens\\Fase1\\item-14.png");
 
+	Objeto* botao15 = (Objeto*)malloc(sizeof(Objeto));
+	botao15->largura = 42;
+	botao15->altura = 42;
+	botao15->x = 289;
+	botao15->y = 349;
+	botao15->bitmap = al_load_bitmap("imagens\\Fase1\\botao-15.png");
+
+	Objeto* botao4 = (Objeto*)malloc(sizeof(Objeto));
+	botao4->largura = 42;
+	botao4->altura = 42;
+	botao4->x = 476;
+	botao4->y = 283;
+	botao4->bitmap = al_load_bitmap("imagens\\Fase1\\botao+4.png");
+
+	Objeto* botao3 = (Objeto*)malloc(sizeof(Objeto));
+	botao3->largura = 42;
+	botao3->altura = 42;
+	botao3->x = 87;
+	botao3->y = 283;
+	botao3->bitmap = al_load_bitmap("imagens\\Fase1\\botao3.png");
+
 	al_flip_display();
 
 	while (!sair_programa && !estado_perspectiva && !sair_tela) {
@@ -138,27 +160,45 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_baixo)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_UM;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
-				if (inventariousado[0] == true) {
-					if (IsInside(evento.mouse.x, evento.mouse.y, itemraiz)) {
-						cont = valida_enigma(enigma_resol, -3, cont);
+				if (IsInside(evento.mouse.x, evento.mouse.y, botao15)) {
+					al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+					cont = valida_enigma(enigma_resol, -15, cont);
+				}
+				if (IsInside(evento.mouse.x, evento.mouse.y, botao3)) {
+					al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+					cont = valida_enigma(enigma_resol, 3, cont);
+				}
+				if (IsInside(evento.mouse.x, evento.mouse.y, botao4)) {
+					al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+					cont = valida_enigma(enigma_resol, 4, cont);
+				}
+				if (!inventario[4]) {
+					if (inventariousado[0] == true) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, itemraiz)) {
+							al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+							cont = valida_enigma(enigma_resol, -3, cont);
+						}
 					}
-				}
-				if (inventariousado[1] == true) {
-					if (IsInside(evento.mouse.x, evento.mouse.y, itemrelogio)) {
-						cont = valida_enigma(enigma_resol, 5, cont);
+					if (inventariousado[1] == true) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, itemrelogio)) {
+							al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+							cont = valida_enigma(enigma_resol, 5, cont);
+							}
 					}
-				}
-				if (inventariousado[2] == true) {
-					if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
-						cont = valida_enigma(enigma_resol, -14, cont);
-
+					if (inventariousado[2] == true) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
+							al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+							cont = valida_enigma(enigma_resol, -14, cont);
+						}
 					}
 				}
 			}
 			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-					pause(janela,FASE_UM);
+					pause(janela,10); 
+					//aqui é um valor designado para indicar que esta na tela da enigma, podendo usar os itens somente quando esta nela.
 				}
 			}
 			sair_programa = fechar_janela(janela, evento);
@@ -172,7 +212,12 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 		}
 		al_draw_bitmap(telinha, 0, 0, 0);
 
+		al_draw_bitmap(botao15->bitmap, botao15->x, botao15->y, 0);
+		al_draw_bitmap(botao3->bitmap, botao3->x, botao3->y, 0);
+		al_draw_bitmap(botao4->bitmap, botao4->x, botao4->y, 0);
+
 		al_draw_bitmap(seta_baixo->bitmap, seta_baixo->x, seta_baixo->y, 0);
+
 		if (inventariousado[0] == true) {
 			al_draw_bitmap(itemraiz->bitmap, itemraiz->x, itemraiz->y, 0);
 		}
@@ -183,7 +228,7 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 			al_draw_bitmap(itemtermo->bitmap, itemtermo->x, itemtermo->y, 0);
 		}
 		if (!textsbox[1]) {
-			al_draw_bitmap(fala3, 0, 0, 0);
+			al_draw_bitmap(falaenigma, 0, 0, 0);
 		}
 		if (inventario[4]) {
 			switch (cont_falas)
@@ -208,12 +253,15 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 	}
 	al_destroy_bitmap(background);
 	al_destroy_bitmap(telinha);
-	al_destroy_bitmap(fala3);
+	al_destroy_bitmap(falaenigma);
 	al_destroy_bitmap(text1);
 	al_destroy_bitmap(text2);
 	al_destroy_bitmap(text3);
+	al_destroy_sample(som_tecla);
 
-
+	al_destroy_bitmap(botao15->bitmap);
+	al_destroy_bitmap(botao3->bitmap);
+	al_destroy_bitmap(botao4->bitmap);
 	al_destroy_bitmap(seta_baixo->bitmap);
 	al_destroy_bitmap(itemraiz->bitmap);
 	al_destroy_bitmap(itemrelogio->bitmap);
@@ -223,6 +271,9 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 	free(itemrelogio);
 	free(itemtermo);
 	free(seta_baixo);
+	free(botao15);
+	free(botao3);
+	free(botao4);
 }
 
 void perspectiva_um(ALLEGRO_DISPLAY *janela) {
@@ -231,10 +282,11 @@ void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 
 	int cont_falas = 1;
 
-	ALLEGRO_BITMAP *background, *fala1,*fala2;
+	ALLEGRO_BITMAP *background, *falaini1,*falaini2,*falaini3;
 	background = al_load_bitmap("imagens\\Fase1\\tela1.png");
-	fala1 = al_load_bitmap("imagens\\Fase1\\texts\\ex1.png");
-	fala2 = al_load_bitmap("imagens\\Fase1\\texts\\ex2.png");
+	falaini1 = al_load_bitmap("imagens\\Fase1\\texts\\falaini1.png");
+	falaini2 = al_load_bitmap("imagens\\Fase1\\texts\\falaini2.png");
+	falaini3 = al_load_bitmap("imagens\\Fase1\\texts\\falaini3.png");
 
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
@@ -262,10 +314,12 @@ void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_DOIS;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_TRES;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, objenigma)) {
 					estado_perspectiva = true;
@@ -292,14 +346,18 @@ void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 			switch (cont_falas)
 			{
 			case 1:
-				al_draw_bitmap(fala1, 0, 0, 0);
+				al_draw_bitmap(falaini1, 0, 0, 0);
 				al_flip_display();
 				break;
 			case 2:
-				al_draw_bitmap(fala2, 0, 0, 0);
+				al_draw_bitmap(falaini2, 0, 0, 0);
 				al_flip_display();
 				break;
 			case 3:
+				al_draw_bitmap(falaini3, 0, 0, 0);
+				al_flip_display();
+				break;
+			default:
 				textsbox[0] = true;
 				break;
 			}
@@ -309,8 +367,8 @@ void perspectiva_um(ALLEGRO_DISPLAY *janela) {
 
 	al_destroy_bitmap(background);
 	al_destroy_bitmap(objenigma->bitmap);
-	al_destroy_bitmap(fala1);
-	al_destroy_bitmap(fala2);
+	al_destroy_bitmap(falaini1);
+	al_destroy_bitmap(falaini2);
 
 	free(objenigma);
 }
@@ -323,6 +381,8 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
 	background = al_load_bitmap("imagens\\Fase1\\tela2.png");
 	textlivro = al_load_bitmap("imagens\\Fase1\\texts\\text-3.png");
 	textnota = al_load_bitmap("imagens\\Fase1\\texts\\textnota.png");
+
+	ALLEGRO_SAMPLE *som_papel = al_load_sample("sons\\som_papel.ogg");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 
@@ -360,19 +420,23 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
  				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_QUATRO;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_UM;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (!inventario[0]) {
 					if (IsInside(evento.mouse.x, evento.mouse.y, livro3)) {
 						inventario[0] = true;
+						al_play_sample(som_item, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					}
 				}
 				if (!inventario[3]) {
 					if (IsInside(evento.mouse.x, evento.mouse.y, objnota)) {
 						inventario[3] = true;
+						al_play_sample(som_papel, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					}
 				}
 			}
@@ -409,6 +473,8 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
 	al_destroy_bitmap(objnota->bitmap);
 	al_destroy_bitmap(textlivro);
 	al_destroy_bitmap(textnota);
+	al_destroy_sample(som_papel);
+
 	free(livro3);
 	free(objnota);
 }
@@ -418,6 +484,8 @@ void perspectiva_tres(ALLEGRO_DISPLAY *janela) {
 	bool estado_perspectiva = false;
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
+
+	ALLEGRO_SAMPLE *som_trancado = al_load_sample("sons\\porta_trancada.ogg");
 
 	ALLEGRO_BITMAP *background,*texttermo,*textnaochave,*textfinal;
 	background = al_load_bitmap("imagens\\Fase1\\tela3.png");
@@ -461,20 +529,24 @@ void perspectiva_tres(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_UM;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_QUATRO;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (!inventario[2])
 				{
 					if (IsInside(evento.mouse.x, evento.mouse.y, objtermo)) {
 						inventario[2] = true;	
+						al_play_sample(som_item, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					}
 				}
 				if (IsInside(evento.mouse.x, evento.mouse.y, objtranca)) {
 					if (!inventario[4]) {
 						textsbox[6] = true;
+						al_play_sample(som_trancado, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					}
 					else {
 						textsbox[6] = true;
@@ -516,7 +588,7 @@ void perspectiva_tres(ALLEGRO_DISPLAY *janela) {
 	al_destroy_bitmap(texttermo);
 	al_destroy_bitmap(textnaochave);
 	al_destroy_bitmap(textfinal);
-
+	al_destroy_sample(som_trancado);
 
 	free(objtermo);
 	free(objtranca);
@@ -555,14 +627,17 @@ void perspectiva_quatro(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_TRES;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva = VISAO_DOIS;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (!inventario[1]) {
 					if (IsInside(evento.mouse.x, evento.mouse.y, objrelogio)) {
 						inventario[1] = true;
+						al_play_sample(som_item, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					}
 				}
 			}

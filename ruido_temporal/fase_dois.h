@@ -75,6 +75,9 @@ void perspectiva_um_2(ALLEGRO_DISPLAY *janela) {
 		al_flip_display();
 	}
 	al_destroy_bitmap(background);
+	al_destroy_bitmap(objteste->bitmap);
+
+	free(objteste);
 }
 
 void perspectiva_dois_2(ALLEGRO_DISPLAY *janela) {
