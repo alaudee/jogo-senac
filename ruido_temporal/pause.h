@@ -15,11 +15,14 @@
 #include "Struct.h"
 
 
-void pause(ALLEGRO_DISPLAY *janela) {
+void pause(ALLEGRO_DISPLAY *janela, int fase) {
 
 	Objeto* btnmusica;
 	Objeto* btncontinuar;
 	ALLEGRO_BITMAP *background = NULL;
+	ALLEGRO_SAMPLE *som_pause = NULL;
+
+	som_pause = al_load_sample("sons\\som_menu.ogg");
 
 	bool sair_tela = false;
 
@@ -37,6 +40,7 @@ void pause(ALLEGRO_DISPLAY *janela) {
 	btncontinuar->y = 200;
 	btncontinuar->bitmap = al_load_bitmap("imagens\\imgcontinuar.png");
 
+	//itens da fase 1
 	Objeto* itemraiz = (Objeto*)malloc(sizeof(Objeto));
 	itemraiz->largura = 42;
 	itemraiz->altura = 42;
@@ -58,13 +62,30 @@ void pause(ALLEGRO_DISPLAY *janela) {
 	itemtermo->y = 390;
 	itemtermo->bitmap = al_load_bitmap("imagens\\Fase1\\item-14.png");
 
+	Objeto* itemchave = (Objeto*)malloc(sizeof(Objeto));
+	itemchave->largura = 42;
+	itemchave->altura = 42;
+	itemchave->x = 280;
+	itemchave->y = 390;
+	itemchave->bitmap = al_load_bitmap("imagens\\Fase1\\chave.png");
+
+	//itens da fase 2
+
+	Objeto* objteste = (Objeto*)malloc(sizeof(Objeto));
+	objteste->altura = 90;
+	objteste->largura = 90;
+	objteste->x = 70;
+	objteste->y = 390;
+	objteste->bitmap = al_load_bitmap("imagens\\Fase2\\relogiobolso.png");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 	background = al_load_bitmap("imagens\\teste2.jpg");
 
+	al_play_sample(som_pause, 0.1, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
 	al_flip_display();
 
-	while (!sair_tela) {
+	while (!sair_tela && !sair_programa) {
 	
 		while (!al_event_queue_is_empty(fila_eventos)) {
 			ALLEGRO_EVENT evento;
@@ -87,14 +108,22 @@ void pause(ALLEGRO_DISPLAY *janela) {
 						musica_fundo = true;
 					}
 				}
-				else if (IsInside(evento.mouse.x, evento.mouse.y, itemraiz)) {
-					inventariousado[0] = retornar_sim_nao("Item", "Item a ser usado", "Você quer usar este item?");
-				}
-				else if (IsInside(evento.mouse.x, evento.mouse.y, itemrelogio)) {
-					inventariousado[1] = retornar_sim_nao("Item", "Item a ser usado", "Você quer usar este item?");
-				}
-				else if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
-					inventariousado[2] = retornar_sim_nao("Item", "Item a ser usado", "Você quer usar este item?");
+				if (fase == 10) {
+					if (inventario[0] && !inventariousado[0]) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, itemraiz)) {
+							inventariousado[0] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
+						}
+					}
+					if (inventario[1] && !inventariousado[1]) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, itemrelogio)) {
+							inventariousado[1] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
+						}
+					}
+					if (inventario[2] && !inventariousado[2]) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
+							inventariousado[2] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
+						}
+					}
 				}
 			}
 			else if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -107,15 +136,26 @@ void pause(ALLEGRO_DISPLAY *janela) {
 		}
 
 		al_draw_bitmap(background, 0, 0, 0);
-		if (inventario[0] && !inventariousado[0]) {
-			al_draw_bitmap(itemraiz->bitmap, itemraiz->x, itemraiz->y, 0);
+		if (fase == FASE_UM || fase == 10) {
+			if (inventario[0] && !inventariousado[0]) {
+				al_draw_bitmap(itemraiz->bitmap, itemraiz->x, itemraiz->y, 0);
+			}
+			if (inventario[1] && !inventariousado[1]) {
+				al_draw_bitmap(itemrelogio->bitmap, itemrelogio->x, itemrelogio->y, 0);
+			}
+			if (inventario[2] && !inventariousado[2]) {
+				al_draw_bitmap(itemtermo->bitmap, itemtermo->x, itemtermo->y, 0);
+			}
+			if (inventario[4]) {
+				al_draw_bitmap(itemchave->bitmap, itemchave->x, itemchave->y, 0);
+			}
 		}
-		if (inventario[1] && !inventariousado[1]) {
-			al_draw_bitmap(itemrelogio->bitmap, itemrelogio->x, itemrelogio->y, 0);
+		if (fase == FASE_DOIS) {
+			if (inventario[0] && !inventariousado[0]) {
+				al_draw_bitmap(objteste->bitmap, objteste->x, objteste->y, 0);
+			}
 		}
-		if (inventario[2] && !inventariousado[2]) {
-			al_draw_bitmap(itemtermo->bitmap, itemtermo->x, itemtermo->y, 0);
-		}
+
 		al_draw_bitmap(btncontinuar->bitmap, btncontinuar->x, btncontinuar->y, 0);
 		al_draw_bitmap(btnmusica->bitmap, btnmusica->x, btnmusica->y, 0);
 		
@@ -128,11 +168,54 @@ void pause(ALLEGRO_DISPLAY *janela) {
 	al_destroy_bitmap(itemraiz->bitmap);
 	al_destroy_bitmap(itemrelogio->bitmap);
 	al_destroy_bitmap(itemtermo->bitmap);
+	al_destroy_bitmap(itemchave->bitmap);
+	al_destroy_bitmap(objteste->bitmap);
 
 	free(btncontinuar);
 	free(btnmusica);
 	free(itemraiz);
 	free(itemrelogio);
 	free(itemtermo);
+	free(itemchave);
+	free(objteste);
 	
+}
+
+void Notacao(ALLEGRO_DISPLAY *janela, bool inventario,int fase) {
+
+	ALLEGRO_BITMAP *nota_fase1,*sem_nota;
+	nota_fase1 = al_load_bitmap("imagens\\Fase1\\nota.png");
+	sem_nota = al_load_bitmap("imagens\\Fase1\\semnota.png");
+
+	bool sair_tela = false;
+
+	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
+
+	al_flip_display();
+
+	while (!sair_programa && !sair_tela) {
+		while (!al_event_queue_is_empty(fila_eventos)) {
+			ALLEGRO_EVENT evento;
+			al_wait_for_event(fila_eventos, &evento);
+
+			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
+				if (evento.keyboard.keycode == ALLEGRO_KEY_J) {
+						sair_tela = true;
+				}
+			}
+			sair_programa = fechar_janela(janela, evento);
+		}
+		if (!inventario) {
+			al_draw_bitmap(sem_nota, 0, 0, 0);
+		}
+		else {
+			if (fase == FASE_UM) {
+				al_draw_bitmap(nota_fase1, 0, 0, 0);
+			}
+		}
+		al_flip_display();
+	}
+	al_destroy_bitmap(nota_fase1);
+	al_destroy_bitmap(sem_nota);
+
 }

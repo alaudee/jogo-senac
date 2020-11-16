@@ -16,6 +16,8 @@
 #include "menu.h"
 #include "historia.h"
 #include "fase_um.h"
+#include "fase_dois.h"
+
 
 int main(void) {
 	init();
@@ -25,10 +27,13 @@ int main(void) {
 	janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
 
 	//implementação da musica
-	musicafundo = al_load_audio_stream("sons\\03 A Tempo.ogg", 4, 1024);
+	musicafundo = al_load_audio_stream("sons\\tema_jogo.ogg", 4, 1024);
 	al_attach_audio_stream_to_mixer(musicafundo, al_get_default_mixer());
 	al_set_audio_stream_playmode(musicafundo, ALLEGRO_PLAYMODE_LOOP);
 	al_set_audio_stream_gain(musicafundo, 0.2);
+
+	som_seta = al_load_sample("sons\\som_setas.ogg");
+	som_item = al_load_sample("sons\\som_itens.ogg");
 
 	//Iniciando o Mouse, sendo usado em todas as janelas
 	al_set_system_mouse_cursor(janela, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
@@ -54,11 +59,11 @@ int main(void) {
 		case MENU:
 			tela_menu(janela);
 			break;
-		case HISTORIA:
-			tela_historia(janela);
-			break;
 		case FASE_UM:
 			fase_um(janela);
+			break;
+		case FASE_DOIS:
+			fase_dois(janela);
 			break;
 		default:
 			break;
@@ -69,6 +74,9 @@ int main(void) {
 	al_destroy_audio_stream(musicafundo);
 	al_destroy_bitmap(seta_direita->bitmap);
 	al_destroy_bitmap(seta_esquerda->bitmap);
+	al_destroy_sample(som_item);
+	al_destroy_sample(som_seta);
+
 
 	free(seta_direita);
 	free(seta_esquerda);

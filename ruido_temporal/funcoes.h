@@ -34,14 +34,19 @@ bool fechar_janela(ALLEGRO_DISPLAY *janela_atual, ALLEGRO_EVENT evento) {
 }
 
 void Mostrar_mensagem(char titulo[50], char titulo_caixa[50], char mensagem[100]) {
-	int r = al_show_native_message_box(NULL, titulo, titulo_caixa, mensagem, NULL, ALLEGRO_MESSAGEBOX_OK_CANCEL);
+	int r = al_show_native_message_box(NULL, titulo, titulo_caixa, mensagem, NULL, ALLEGRO_MESSAGEBOX_ERROR);
 	printf("%i", r);
 }
 
-int retornar_sim_nao(char titulo[50], char titulo_caixa[50], char mensagem[100]) {
-	int r = al_show_native_message_box(NULL, titulo, titulo_caixa, mensagem, NULL, ALLEGRO_MESSAGEBOX_OK_CANCEL);
+int retornar_sim_nao(char titulo[50], char titulo_caixa[50], char mensagem[1000]) {
+	int r = al_show_native_message_box(NULL, titulo, titulo_caixa, mensagem, NULL, ALLEGRO_MESSAGEBOX_YES_NO);
 	printf("%i", r);
-	return r;
+	if (r == 1) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 bool Verificarmusica(bool musica_fundo) {
@@ -83,6 +88,11 @@ void init() {
 
 	//inicialização do estado tela do ENUM = MENU
 	estado_tela = MENU;
+
+	for (int i = 0; i < 5; i++) {
+		inventario[i] = false;
+		inventariousado[i] = false;
+	}
 
 	al_flip_display();
 
