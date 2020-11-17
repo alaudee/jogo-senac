@@ -30,7 +30,7 @@ int main(void) {
 	musicafundo = al_load_audio_stream("sons\\tema_jogo.ogg", 4, 1024);
 	al_attach_audio_stream_to_mixer(musicafundo, al_get_default_mixer());
 	al_set_audio_stream_playmode(musicafundo, ALLEGRO_PLAYMODE_LOOP);
-	al_set_audio_stream_gain(musicafundo, 0.2);
+	al_set_audio_stream_gain(musicafundo, 0.05);
 
 	som_seta = al_load_sample("sons\\som_setas.ogg");
 	som_item = al_load_sample("sons\\som_itens.ogg");
