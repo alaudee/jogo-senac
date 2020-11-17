@@ -197,8 +197,9 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 			}
 			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-					pause(janela,10); 
-					//aqui é um valor designado para indicar que esta na tela da enigma, podendo usar os itens somente quando esta nela.
+					pause(janela,10);
+					//aqui é um valor designado para indicar que esta na tela da enigma, 
+					//podendo usar os itens somente quando esta nela.
 				}
 			}
 			sair_programa = fechar_janela(janela, evento);
@@ -391,7 +392,7 @@ void perspectiva_dois(ALLEGRO_DISPLAY *janela) {
 	objnota->largura = 60;
 	objnota->x = (LARGURA_TELA / 2) - (objnota->largura / 2) - 230;
 	objnota->y = (ALTURA_TELA / 2) - (objnota->altura / 2) + 140;
-	objnota->bitmap = al_load_bitmap("imagens\\Fase1\\papeldenota.png");
+	objnota->bitmap = al_load_bitmap("imagens\\papeldenota.png");
 
 	Objeto* livro3 = (Objeto*)malloc(sizeof(Objeto));
 	livro3->largura = 15;

@@ -71,12 +71,12 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 
 	//itens da fase 2
 
-	Objeto* objteste = (Objeto*)malloc(sizeof(Objeto));
-	objteste->altura = 90;
-	objteste->largura = 90;
-	objteste->x = 70;
-	objteste->y = 390;
-	objteste->bitmap = al_load_bitmap("imagens\\Fase2\\relogiobolso.png");
+	Objeto* chave = (Objeto*)malloc(sizeof(Objeto));
+	chave->altura = 90;
+	chave->largura = 90;
+	chave->x = (LARGURA_TELA / 2) - (chave->largura / 2);
+	chave->y = (ALTURA_TELA / 2) - (chave->altura / 2) + 220;
+	chave->bitmap = al_load_bitmap("imagens\\Fase2\\chave.png");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 	background = al_load_bitmap("imagens\\teste2.jpg");
@@ -152,7 +152,7 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 		}
 		if (fase == FASE_DOIS) {
 			if (inventario[0] && !inventariousado[0]) {
-				al_draw_bitmap(objteste->bitmap, objteste->x, objteste->y, 0);
+				al_draw_bitmap(chave->bitmap, chave->x, chave->y, 0);
 			}
 		}
 
@@ -169,7 +169,7 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 	al_destroy_bitmap(itemrelogio->bitmap);
 	al_destroy_bitmap(itemtermo->bitmap);
 	al_destroy_bitmap(itemchave->bitmap);
-	al_destroy_bitmap(objteste->bitmap);
+	al_destroy_bitmap(chave->bitmap);
 
 	free(btncontinuar);
 	free(btnmusica);
@@ -177,14 +177,15 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 	free(itemrelogio);
 	free(itemtermo);
 	free(itemchave);
-	free(objteste);
+	free(chave);
 	
 }
 
 void Notacao(ALLEGRO_DISPLAY *janela, bool inventario,int fase) {
 
-	ALLEGRO_BITMAP *nota_fase1,*sem_nota;
-	nota_fase1 = al_load_bitmap("imagens\\Fase1\\nota.png");
+	ALLEGRO_BITMAP *nota_fase1,*nota_fase2, *sem_nota;
+	nota_fase1 = al_load_bitmap("imagens\\Fase1\\nota1.png");
+	nota_fase2 = al_load_bitmap("imagens\\Fase2\\nota2_parte2.png");
 	sem_nota = al_load_bitmap("imagens\\Fase1\\semnota.png");
 
 	bool sair_tela = false;
@@ -200,7 +201,7 @@ void Notacao(ALLEGRO_DISPLAY *janela, bool inventario,int fase) {
 
 			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_J) {
-						sair_tela = true;
+					sair_tela = true;
 				}
 			}
 			sair_programa = fechar_janela(janela, evento);
@@ -212,10 +213,14 @@ void Notacao(ALLEGRO_DISPLAY *janela, bool inventario,int fase) {
 			if (fase == FASE_UM) {
 				al_draw_bitmap(nota_fase1, 0, 0, 0);
 			}
+			else if (fase == FASE_DOIS) {
+				al_draw_bitmap(nota_fase2, 0, 0, 0);
+			}
 		}
 		al_flip_display();
 	}
 	al_destroy_bitmap(nota_fase1);
+	al_destroy_bitmap(nota_fase2);
 	al_destroy_bitmap(sem_nota);
 
 }
