@@ -78,6 +78,13 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 	chave->y = (ALTURA_TELA / 2) - (chave->altura / 2) + 220;
 	chave->bitmap = al_load_bitmap("imagens\\Fase2\\chave.png");
 
+	Objeto* fone = (Objeto*)malloc(sizeof(Objeto));
+	fone->altura = 70;
+	fone->largura = 70;
+	fone->x = (LARGURA_TELA / 2) - (fone->largura / 2) - 150;
+	fone->y = (ALTURA_TELA / 2) - (fone->altura / 2) + 220;
+	fone->bitmap = al_load_bitmap("imagens\\Fase2\\fone.png");
+
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 	background = al_load_bitmap("imagens\\teste2.jpg");
 
@@ -125,6 +132,19 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 						}
 					}
 				}
+
+				if (fase == FASE_DOIS) {
+					if (inventario[1] && !inventariousado[1]) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, fone)) {
+							inventariousado[1] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
+						}
+					}
+					if (inventario[0] && !inventariousado[0]) {
+						if (IsInside(evento.mouse.x, evento.mouse.y, chave)) {
+							inventariousado[0] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
+						}
+					}
+				}
 			}
 			else if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
 				if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
@@ -154,6 +174,9 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 			if (inventario[0] && !inventariousado[0]) {
 				al_draw_bitmap(chave->bitmap, chave->x, chave->y, 0);
 			}
+			if (inventario[1] && !inventariousado[1]) {
+				al_draw_bitmap(fone->bitmap, fone->x, fone->y, 0);
+			}
 		}
 
 		al_draw_bitmap(btncontinuar->bitmap, btncontinuar->x, btncontinuar->y, 0);
@@ -170,6 +193,7 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 	al_destroy_bitmap(itemtermo->bitmap);
 	al_destroy_bitmap(itemchave->bitmap);
 	al_destroy_bitmap(chave->bitmap);
+	al_destroy_bitmap(fone->bitmap);
 
 	free(btncontinuar);
 	free(btnmusica);
@@ -178,6 +202,7 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 	free(itemtermo);
 	free(itemchave);
 	free(chave);
+	free(fone);
 	
 }
 

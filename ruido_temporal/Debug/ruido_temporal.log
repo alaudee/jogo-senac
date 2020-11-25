@@ -1,2 +1,3 @@
 ﻿  main.c
+c:\users\chris\desktop\jogo-senac\ruido_temporal\funcoes.h(75): warning C4716: 'esq_ou_dir': must return a value
   ruido_temporal.vcxproj -> C:\Users\chris\Desktop\jogo-senac\Debug\ruido_temporal.exe
