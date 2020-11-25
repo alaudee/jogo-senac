@@ -49,6 +49,31 @@ int retornar_sim_nao(char titulo[50], char titulo_caixa[50], char mensagem[1000]
 	}
 }
 
+int esq_ou_dir(int direcao, int tela, int count) {
+
+	// Quando direcao == 1, indica que o botão á esquerda foi clicado
+	if (direcao == 1) {
+		
+		if (tela == 1) {
+			count++;
+		}
+		else if (tela == 3) {
+			count++;
+		}
+		else if (tela == 4) {
+			count++;
+		}
+	}
+	// Quando direcao == 2, indica que o botão á direita foi clicado
+	else if (direcao == 2) {
+		if (tela == 2) {
+			count++;
+		}
+	}
+
+	
+}
+
 bool Verificarmusica(bool musica_fundo) {
 
 	if (musica_fundo == true)
