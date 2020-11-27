@@ -1,3 +1,4 @@
 ﻿  main.c
-c:\users\chris\desktop\jogo-senac\ruido_temporal\funcoes.h(75): warning C4716: 'esq_ou_dir': must return a value
-  ruido_temporal.vcxproj -> C:\Users\chris\Desktop\jogo-senac\Debug\ruido_temporal.exe
+c:\users\jun\desktop\nova pasta\jogo-senac\ruido_temporal\funcoes.h(75): warning C4716: 'esq_ou_dir': deve retornar um valor
+c:\users\jun\desktop\nova pasta\jogo-senac\ruido_temporal\fase_um.h(59): warning C4715: 'valida_enigma': nem todos os caminhos de controle retornam um valor
+  ruido_temporal.vcxproj -> C:\Users\Jun\Desktop\Nova pasta\jogo-senac\Debug\ruido_temporal.exe

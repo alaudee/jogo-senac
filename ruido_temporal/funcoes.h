@@ -118,6 +118,9 @@ void init() {
 		inventario[i] = false;
 		inventariousado[i] = false;
 	}
+	for (int i = 0; i < 5; i++) {
+		textsbox[i] = false;
+	}
 
 	al_flip_display();
 

@@ -19,20 +19,16 @@ void tela_historia(ALLEGRO_DISPLAY *janela) {
 	init();
 
 	//backgrounds
-	ALLEGRO_BITMAP *his1, *his2, *his3, *his4, *his5, *his6, *his7;
+	ALLEGRO_BITMAP *his1, *his2;
 
 	//atribuindo as imagens no background (tela historia)
-	his1 = al_load_bitmap("imagens\\historia\\his1.jpg");
-	his2 = al_load_bitmap("imagens\\historia\\his2.jpg");
-	his3 = al_load_bitmap("imagens\\historia\\his3.jpg");
-	his4 = al_load_bitmap("imagens\\historia\\his4.jpg");
-	his5 = al_load_bitmap("imagens\\historia\\his5.jpg");
-	his6 = al_load_bitmap("imagens\\historia\\his6.jpg");
-	his7 = al_load_bitmap("imagens\\historia\\his7.jpg");
+	his1 = al_load_bitmap("imagens\\historia\\Telafinal1.png");
+	his2 = al_load_bitmap("imagens\\historia\\Telafinal2.png");
+
 
 	sair_programa = false;
 	bool sair_tela = false;
-	int historia = 1;
+	int historia = 0;
 	al_draw_bitmap(his1, 0, 0, 0);
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 
@@ -56,33 +52,12 @@ void tela_historia(ALLEGRO_DISPLAY *janela) {
 		}
 		switch (historia)
 		{
-		case 2:
+		case 1:
 			al_draw_bitmap(his2, 0, 0, 0);
 			al_flip_display();
 			break;
-		case 3:
-			al_draw_bitmap(his3, 0, 0, 0);
-			al_flip_display();
-			break;
-		case 4:
-			al_draw_bitmap(his4, 0, 0, 0);
-			al_flip_display();
-			break;
-		case 5:
-			al_draw_bitmap(his5, 0, 0, 0);
-			al_flip_display();
-			break;
-		case 6:
-			al_draw_bitmap(his6, 0, 0, 0);
-			al_flip_display();
-			break;
-		case 7:
-			al_draw_bitmap(his7, 0, 0, 0);
-			al_flip_display();
-			break;
-		case 8:
-			estado_tela = FASE_UM;
-			sair_tela = true;
+		case 2:
+			sair_programa = true;
 			break;
 		}
 			
@@ -93,9 +68,4 @@ void tela_historia(ALLEGRO_DISPLAY *janela) {
 	// Finaliza a janela
 	al_destroy_bitmap(his1);
 	al_destroy_bitmap(his2);
-	al_destroy_bitmap(his3);
-	al_destroy_bitmap(his4);
-	al_destroy_bitmap(his5);
-	al_destroy_bitmap(his6);
-	al_destroy_bitmap(his7);
 }

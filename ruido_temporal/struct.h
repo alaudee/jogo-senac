@@ -34,7 +34,7 @@ bool musica_fundo = true;
 //criação do invetario(sendo 0 um espaço dele)
 bool inventario[5];
 bool inventariousado[5];
-
+bool textsbox[10];
 //criação da separação das telas
 enum { MENU, HISTORIA, FASE_UM,FASE_DOIS};
 int estado_tela;

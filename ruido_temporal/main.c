@@ -54,6 +54,7 @@ int main(void) {
 	seta_esquerda->y = (ALTURA_TELA / 2) - (seta_esquerda->largura / 2);
 
 	while (!sair_programa) {
+
 		switch (estado_tela)
 		{
 		case MENU:
@@ -65,6 +66,8 @@ int main(void) {
 		case FASE_DOIS:
 			fase_dois(janela);
 			break;
+		case HISTORIA:
+			tela_historia(janela);
 		default:
 			break;
 		}

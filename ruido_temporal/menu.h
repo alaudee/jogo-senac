@@ -23,11 +23,13 @@ void tela_menu(ALLEGRO_DISPLAY *janela) {
 	Objeto* btnjogar;
 	Objeto* btnmusica;
 	ALLEGRO_BITMAP *background = NULL;
+	//ALLEGRO_BITMAP *musicaon = al_load_bitmap("imagens\\on.png");
+	//ALLEGRO_BITMAP *musicaoff = al_load_bitmap("imagens\\off.jpg");
 
 	bool sair_tela = false;
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
-	background = al_load_bitmap("imagens\\teste.jpg");
+	background = al_load_bitmap("imagens\\menu.png");
 	al_draw_bitmap(background, 0, 0,0);
 
 	//atribuindo valores ao objeto
@@ -43,7 +45,7 @@ void tela_menu(ALLEGRO_DISPLAY *janela) {
 	btnmusica->altura = 50;
 	btnmusica->x = LARGURA_TELA - (btnmusica->largura) - 10;
 	btnmusica->y = 10;
-	btnmusica->bitmap = al_load_bitmap("imagens\\on.png");
+	btnmusica->bitmap = al_load_bitmap("imagens\\on.png");;
 
 	while (!sair_tela && !sair_programa)
 	{
@@ -67,19 +69,18 @@ void tela_menu(ALLEGRO_DISPLAY *janela) {
 			sair_programa = fechar_janela(janela, evento);
 		}
 
-		al_draw_text(fontetitulo, al_map_rgb(0, 255, 0), LARGURA_TELA / 2, 90, ALLEGRO_ALIGN_CENTRE, "Ruido Temporal");
+		al_draw_text(fontetitulo, al_map_rgb(44, 148, 86), LARGURA_TELA / 2, 90, ALLEGRO_ALIGN_CENTRE, "Ruido Temporal");
 		al_set_target_bitmap(al_get_backbuffer(janela));
 		al_draw_bitmap(btnjogar->bitmap, btnjogar->x, btnjogar->y, 0);
 		al_draw_bitmap(btnmusica->bitmap, btnmusica->x, btnmusica->y, 0);
 
-
-		//atualizar a tela
 		al_flip_display();
-
 	}
 	al_destroy_bitmap(background);
 	al_destroy_bitmap(btnjogar->bitmap);
 	al_destroy_bitmap(btnmusica->bitmap);
+	//al_destroy_bitmap(musicaon);
+	//al_destroy_bitmap(musicaoff);
 
 	free(btnjogar);
 	free(btnmusica);

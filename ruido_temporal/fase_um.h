@@ -35,8 +35,6 @@ int visao_anterior;
 
 int enigma_resol[3] = {-3, 5 ,-14};
 
-bool textsbox[10];
-
 /*
 	textsbox[0] = falas perspectiva 1
 	textsbox[1] = fala tela enigma
@@ -55,16 +53,9 @@ bool textsbox[10];
 int valida_enigma(int vet_resp[], int res, int cont) {
  	if (vet_resp[cont] == res) {
 		cont += 1;
-
-		if (cont == 3) {
-			inventario[4] = true;
-		}
 		return cont;
 	}
-	else {
-		Mostrar_mensagem("ERROR", "ERROR", "Ungultiger Code");
-		return 0;
-	}	
+
 }
 
 void tela_enigma(ALLEGRO_DISPLAY *janela) {
@@ -77,13 +68,16 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 
 	int cont_falas = 1;
 
+	int click = 0;
+
 	ALLEGRO_BITMAP *background = al_load_bitmap("imagens\\Fase1\\enigmatela.png");
 
-	ALLEGRO_BITMAP  *telinha, *telablitz, *telaloading,*falaenigma;
+	ALLEGRO_BITMAP  *telinha, *telablitz, *telaloading,*falaenigma, *telaerror;
 	telinha = al_load_bitmap("imagens\\Fase1\\telacod1.png");
 	telablitz = al_load_bitmap("imagens\\Fase1\\blitz.png");
 	telaloading = al_load_bitmap("imagens\\Fase1\\loading.png");
 	falaenigma = al_load_bitmap("imagens\\Fase1\\texts\\falaenigma.png");
+	telaerror = al_load_bitmap("imagens\\Fase1\\error.png");
 
 	ALLEGRO_BITMAP *text1, *text2, *text3;
 	text1 = al_load_bitmap("imagens\\Fase1\\texts\\textenigma1.png");
@@ -165,32 +159,38 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, botao15)) {
 					al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					cont = valida_enigma(enigma_resol, -15, cont);
+					click++;
 				}
 				if (IsInside(evento.mouse.x, evento.mouse.y, botao3)) {
 					al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					cont = valida_enigma(enigma_resol, 3, cont);
+					click++;
 				}
 				if (IsInside(evento.mouse.x, evento.mouse.y, botao4)) {
 					al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					cont = valida_enigma(enigma_resol, 4, cont);
+					click++;
 				}
 				if (!inventario[4]) {
 					if (inventariousado[0] == true) {
 						if (IsInside(evento.mouse.x, evento.mouse.y, itemraiz)) {
 							al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 							cont = valida_enigma(enigma_resol, -3, cont);
+							click++;
 						}
 					}
 					if (inventariousado[1] == true) {
 						if (IsInside(evento.mouse.x, evento.mouse.y, itemrelogio)) {
 							al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 							cont = valida_enigma(enigma_resol, 5, cont);
+							click++;
 							}
 					}
 					if (inventariousado[2] == true) {
 						if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
 							al_play_sample(som_tecla, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 							cont = valida_enigma(enigma_resol, -14, cont);
+							click++;
 						}
 					}
 				}
@@ -218,6 +218,19 @@ void tela_enigma(ALLEGRO_DISPLAY *janela) {
 		al_draw_bitmap(botao4->bitmap, botao4->x, botao4->y, 0);
 
 		al_draw_bitmap(seta_baixo->bitmap, seta_baixo->x, seta_baixo->y, 0);
+
+		if (click == 3) {
+			if (cont == 3) {
+				inventario[4] = true;
+			}
+			else {
+				al_draw_bitmap(telaerror, 0, 0, 0);
+				al_flip_display();
+				cont = 0;
+				click = 0;
+				al_rest(2.0);
+			}
+		}
 
 		if (inventariousado[0] == true) {
 			al_draw_bitmap(itemraiz->bitmap, itemraiz->x, itemraiz->y, 0);

@@ -74,19 +74,19 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 	Objeto* chave = (Objeto*)malloc(sizeof(Objeto));
 	chave->altura = 90;
 	chave->largura = 90;
-	chave->x = (LARGURA_TELA / 2) - (chave->largura / 2);
-	chave->y = (ALTURA_TELA / 2) - (chave->altura / 2) + 220;
+	chave->x = 70;
+	chave->y = 390;
 	chave->bitmap = al_load_bitmap("imagens\\Fase2\\chave.png");
 
 	Objeto* fone = (Objeto*)malloc(sizeof(Objeto));
 	fone->altura = 70;
 	fone->largura = 70;
-	fone->x = (LARGURA_TELA / 2) - (fone->largura / 2) - 150;
-	fone->y = (ALTURA_TELA / 2) - (fone->altura / 2) + 220;
+	fone->x = 140;
+	fone->y = 390;
 	fone->bitmap = al_load_bitmap("imagens\\Fase2\\fone.png");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
-	background = al_load_bitmap("imagens\\teste2.jpg");
+	background = al_load_bitmap("imagens\\pause.png");
 
 	al_play_sample(som_pause, 0.1, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
@@ -129,19 +129,6 @@ void pause(ALLEGRO_DISPLAY *janela, int fase) {
 					if (inventario[2] && !inventariousado[2]) {
 						if (IsInside(evento.mouse.x, evento.mouse.y, itemtermo)) {
 							inventariousado[2] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
-						}
-					}
-				}
-
-				if (fase == FASE_DOIS) {
-					if (inventario[1] && !inventariousado[1]) {
-						if (IsInside(evento.mouse.x, evento.mouse.y, fone)) {
-							inventariousado[1] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
-						}
-					}
-					if (inventario[0] && !inventariousado[0]) {
-						if (IsInside(evento.mouse.x, evento.mouse.y, chave)) {
-							inventariousado[0] = retornar_sim_nao("Item", "Item a ser usado", "Voce quer usar este item?");
 						}
 					}
 				}
@@ -212,10 +199,15 @@ void Notacao(ALLEGRO_DISPLAY *janela, bool inventario,int fase) {
 	nota_fase1 = al_load_bitmap("imagens\\Fase1\\nota1.png");
 	nota_fase2 = al_load_bitmap("imagens\\Fase2\\nota2_parte2.png");
 	sem_nota = al_load_bitmap("imagens\\Fase1\\semnota.png");
+	ALLEGRO_SAMPLE *som_nota = NULL;
+
+	som_nota = al_load_sample("sons\\abrindo_nota.ogg");
 
 	bool sair_tela = false;
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
+
+	al_play_sample(som_nota, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 	al_flip_display();
 
