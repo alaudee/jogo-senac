@@ -46,6 +46,8 @@ bool sair_tela_2 = false;
 
 int visao_anterior;
 
+ALLEGRO_SAMPLE *som_chave = NULL;
+
 
 void visao_cofre(ALLEGRO_DISPLAY *janela) {
 
@@ -213,13 +215,16 @@ void perspectiva_um_2(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_DOIS_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_TRES_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, chave)) {
 					inventario[0] = true;
+					al_play_sample(som_item, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 			}
 			if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -324,10 +329,12 @@ void perspectiva_dois_2(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_QUATRO_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_UM_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				if (IsInside(evento.mouse.x, evento.mouse.y, telegrafo)) {
 					if (!inventario[1]) {
@@ -425,10 +432,12 @@ void perspectiva_tres_2(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_UM_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_QUATRO_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, cofre)) {
 					estado_perspectiva = true;
@@ -485,6 +494,7 @@ void perspectiva_quatro_2(ALLEGRO_DISPLAY *janela) {
 
 	ALLEGRO_BITMAP *background, *fala88;
 	fala88 = al_load_bitmap("imagens\\Fase2\\texts\\textgaveteiro.png");
+	som_chave = al_load_sample("sons\\som_chave.ogg");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
 	
@@ -511,15 +521,18 @@ void perspectiva_quatro_2(ALLEGRO_DISPLAY *janela) {
 				if (IsInside(evento.mouse.x, evento.mouse.y, seta_esquerda)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_TRES_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				else if (IsInside(evento.mouse.x, evento.mouse.y, seta_direita)) {
 					estado_perspectiva = true;
 					num_perspectiva_2 = VISAO_DOIS_2;
+					al_play_sample(som_seta, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 				}
 				if (inventario[0] && !inventariousado[0]) {
 					if (IsInside(evento.mouse.x, evento.mouse.y, gaveta88)) {
 						inventario[1] = true;
 						inventariousado[0] = true;
+						al_play_sample(som_chave, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 					}
 				}
 			}

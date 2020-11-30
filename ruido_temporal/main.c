@@ -61,10 +61,10 @@ int main(void) {
 			tela_menu(janela);
 			break;
 		case FASE_UM:
-			fase_um(janela);
+			fase_dois(janela);
 			break;
 		case FASE_DOIS:
-			fase_dois(janela);
+			fase_um(janela);
 			break;
 		case HISTORIA:
 			tela_historia(janela);
