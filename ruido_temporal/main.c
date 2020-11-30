@@ -27,7 +27,7 @@ int main(void) {
 	janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
 
 	//implementação da musica
-	musicafundo = al_load_audio_stream("sons\\tema_jogo.ogg", 4, 1024);
+	musicafundo = al_load_audio_stream("sons\\soundtrack.ogg", 4, 1024);
 	al_attach_audio_stream_to_mixer(musicafundo, al_get_default_mixer());
 	al_set_audio_stream_playmode(musicafundo, ALLEGRO_PLAYMODE_LOOP);
 	al_set_audio_stream_gain(musicafundo, 0.05);

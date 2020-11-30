@@ -47,6 +47,7 @@ bool sair_tela_2 = false;
 int visao_anterior;
 
 ALLEGRO_SAMPLE *som_chave = NULL;
+//ALLEGRO_AUDIO_STREAM *som_final = NULL;
 
 
 void visao_cofre(ALLEGRO_DISPLAY *janela) {
@@ -131,6 +132,13 @@ void visao_cofre(ALLEGRO_DISPLAY *janela) {
 			if (res == 4) {
 				al_draw_bitmap(vitoria, 0, 0, 0);
 				al_flip_display();
+				//muda a musica de fundo para a musica de vitoria
+				al_set_audio_stream_gain(musicafundo, 0);
+				musica_fundo = false;
+				musicafundo = al_load_audio_stream("sons\\som_final.ogg", 4, 1024);
+				al_attach_audio_stream_to_mixer(musicafundo, al_get_default_mixer());
+				al_set_audio_stream_playmode(musicafundo, ALLEGRO_PLAYMODE_LOOP);
+				al_set_audio_stream_gain(musicafundo, 0.05);
 				estado_tela = HISTORIA;
 				sair_tela_2 = true;
 				al_rest(2.0);
