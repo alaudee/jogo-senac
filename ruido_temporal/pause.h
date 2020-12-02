@@ -14,7 +14,6 @@
 
 #include "Struct.h"
 
-
 void pause(ALLEGRO_DISPLAY *janela, int fase) {
 
 	Objeto* btnmusica;

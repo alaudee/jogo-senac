@@ -49,6 +49,8 @@ int retornar_sim_nao(char titulo[50], char titulo_caixa[50], char mensagem[1000]
 	}
 }
 
+
+//fase 2
 int esq_ou_dir(int direcao, int tela, int count) {
 
 	// Quando direcao == 1, indica que o botão á esquerda foi clicado

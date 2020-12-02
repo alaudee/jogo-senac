@@ -35,12 +35,11 @@
 	textsbox[8] =
 	textsbox[9] =
 	textsbox[10] =
-
 */
 
 int num_perspectiva_2;
 
-enum { VISAO_UM_2, VISAO_DOIS_2, VISAO_TRES_2, VISAO_QUATRO_2, VISAO_COFRE };
+enum {VISAO_UM_2, VISAO_DOIS_2, VISAO_TRES_2, VISAO_QUATRO_2, VISAO_COFRE};
 
 bool sair_tela_2 = false;
 
