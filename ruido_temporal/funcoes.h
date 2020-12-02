@@ -118,7 +118,7 @@ void init() {
 		inventario[i] = false;
 		inventariousado[i] = false;
 	}
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 10; i++) {
 		textsbox[i] = false;
 	}
 

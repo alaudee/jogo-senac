@@ -31,7 +31,7 @@
 	textsbox[4] = fala usar chave no 88
 	textsbox[5] = fala sem fone
 	textsbox[6] = fala telegrafo
-	textsbox[7] =
+	textsbox[7] = fala com fone
 	textsbox[8] =
 	textsbox[9] =
 	textsbox[10] =
@@ -301,10 +301,10 @@ void perspectiva_dois_2(ALLEGRO_DISPLAY *janela) {
 	falatele = al_load_bitmap("imagens\\Fase2\\texts\\texttelegrafo.png");
 
 	Objeto* telegrafo = (Objeto*)malloc(sizeof(Objeto));
-	telegrafo->altura = 224;
-	telegrafo->largura = 225;
-	telegrafo->x = (LARGURA_TELA / 2) - (telegrafo->largura / 2) + 150;
-	telegrafo->y = (ALTURA_TELA / 2) - (telegrafo->altura / 2) + 26;
+	telegrafo->altura = 100;
+	telegrafo->largura = 100;
+	telegrafo->x = (LARGURA_TELA / 2) - (telegrafo->largura / 2) + 80;
+	telegrafo->y = (ALTURA_TELA / 2) - (telegrafo->altura / 2) - 30;
 	telegrafo->bitmap = al_load_bitmap("imagens\\Fase2\\telegrafo.png");
 
 	Objeto* objnota2 = (Objeto*)malloc(sizeof(Objeto));
@@ -386,7 +386,6 @@ void perspectiva_dois_2(ALLEGRO_DISPLAY *janela) {
 		if (inventario[3] && !textsbox[2]) {
 			al_draw_bitmap(falanota, 0, 0, 0);
 		}
-
 		if (!inventario[1] && textsbox[5]) {
 			al_draw_bitmap(falasemfone, 0, 0, 0);
 		}
@@ -416,10 +415,10 @@ void perspectiva_tres_2(ALLEGRO_DISPLAY *janela) {
 	fala2 = al_load_bitmap("imagens\\Fase2\\texts\\textcofre2.png");
 
 	Objeto* cofre = (Objeto*)malloc(sizeof(Objeto));
-	cofre->altura = 90;
-	cofre->largura = 90;
+	cofre->altura = 200;
+	cofre->largura = 200;
 	cofre->x = (LARGURA_TELA / 2) - (cofre->largura / 2)+100;
-	cofre->y = (ALTURA_TELA / 2) - (cofre->altura / 2)+60;
+	cofre->y = (ALTURA_TELA / 2) - (cofre->altura / 2);
 	cofre->bitmap = al_load_bitmap("imagens\\Fase2\\cofre.png");
 
 	al_register_event_source(fila_eventos, al_get_display_event_source(janela));
